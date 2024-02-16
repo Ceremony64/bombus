@@ -1,0 +1,15 @@
+#bb-garden {
+	position: fixed;
+	z-index: 999;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	pointer-events: none;
+	filter: drop-shadow(2px 2px 2px #0008);
+}
+
+#bb-garden .flip {
+	transform: scaleX(-100%);
+	transform-origin: center;
+}
