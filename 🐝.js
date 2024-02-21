@@ -5,7 +5,7 @@
 		petting = false,
 		minDist = 100,
 		workers = Math.max(5, Math.min(100, visualViewport.width * visualViewport.height / 80000)),
-		timing = 1000 / 60, gate = ~~(timing), maxCorrection = Math.min(8, Math.max(2, gate/timing + 1)), 
+		timing = 1000 / 60, gate = ~~(timing), maxCorrection = Math.min(8, Math.max(2, gate / timing + 1)),
 		garden, beesknees, hive = [], touch = { x: Infinity, y: Infinity }, then, elapsed,
 		request, reqFrame = window.requestAnimationFrame || ((cb) => { return window.setTimeout(cb, 1000 / 60) }), canFrame = window.cancelAnimationFrame || ((i) => { clearTimeout(i) });
 
@@ -172,7 +172,7 @@
 		},
 		bps: function (bps) {
 			gate = ~~(1000 / bps)
-			maxCorrection = Math.min(8, Math.max(2, gate/timing + 1));
+			maxCorrection = Math.min(8, Math.max(2, gate / timing + 1));
 		}
 	};
 })()
