@@ -4,14 +4,13 @@
 		buzzing = false,
 		petting = false,
 		minDist = 100,
-		queen = document.createElementNS("http://www.w3.org/2000/svg", "use"),
 		workers = Math.max(5, Math.min(100, visualViewport.width * visualViewport.height / 80000)),
 		timing = 1000 / 60, gate = ~~(timing), maxCorrection = Math.min(8, Math.max(2, gate/timing + 1)), 
 		garden, beesknees, hive = [], touch = { x: Infinity, y: Infinity }, then, elapsed,
 		request, reqFrame = window.requestAnimationFrame || ((cb) => { return window.setTimeout(cb, 1000 / 60) }), canFrame = window.cancelAnimationFrame || ((i) => { clearTimeout(i) });
 
 	class Bombus {
-		#el;
+		#el = document.createElementNS("http://www.w3.org/2000/svg", "use");
 		#buzzing = true;
 		#size = (Math.random() * 10) + 20;
 		#x = Math.floor(Math.random() * visualViewport.width);
@@ -26,8 +25,7 @@
 			size: Math.random() / 10,
 			delta: Math.random() / 40 + 0.1
 		};
-		constructor(queen) {
-			this.#el = queen.cloneNode(true)
+		constructor() {
 			this.#el.setAttribute("href", "#" + beesknees[Math.ceil((Math.random() * beesknees.length) - 1)].id);
 			this.#el.setAttribute("width", ~~this.#size);
 			this.#el.setAttribute("height", ~~this.#size);
@@ -162,7 +160,7 @@
 		summer: function (bees = workers) {
 			init();
 			for (let i = 0; i < bees; i++) {
-				hive.push(new Bombus(queen));
+				hive.push(new Bombus());
 			}
 		},
 		winter: function () {
