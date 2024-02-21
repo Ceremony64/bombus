@@ -26,22 +26,19 @@ It is easy!
        </head>
        <body>
            <!-- page content -->
-           <!-- page content -->
-           <!-- page content -->
-           <svg version="2.0" xmlns="http://www.w3.org/2000/svg" id="bb-garden">
-               <!-- the rest of 🐝.svg -->
-           </svg>
-       </body>a
+       </body>
    </html>
    ```
-4. Call `bombus.summer()` to spawn all those lovely 🐝🐝
+4. Call `bombus.summer()` to spawn all those lovely 🐝
 
 See `example.html` for a proper example.
 
 ## Other stuff
-- Call `bombus.summer(10)` to spawn exactly 10 🐝🐝. Call it again and again until your browser crashes. Definitely worth it!
-- Call `bombus.winter()` to remove all the cute little 🐝🐝. **YOU \*\*\*\*ING MURDERER!**
-- Call `bombus.bps(120)` to set the update rate of the 🐝🐝 to 120. (bps stands for 🐝 per second). You are limited by the current monitors freshrate tho. Default is 60bps
+- Set `bombus.path = 'folder/with/your/bombus/` to set the path to the bombus folder. Don't forget the trailing slash! Default is `bombus/`
+- Set `bombus.extension = 'svg` to overwrite the file type to svg (costly animation! not recommended!). Default is `png`
+- Call `bombus.summer(10)` to spawn exactly 10 🐝. Call it again and again until your browser crashes. Definitely worth it!
+- Call `bombus.winter()` to remove all the cute little 🐝. **YOU \*\*\*\*ING MURDERER!**
+- Call `bombus.bps(120)` to set the update rate of the 🐝 to 120. (bps stands for 🐝 per second). You are limited by the current monitors freshrate tho. Default is 60bps
 
 ## License
 [CC BY](https://creativecommons.org/licenses/by/4.0/)

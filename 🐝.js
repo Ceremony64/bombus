@@ -6,11 +6,11 @@
 		minDist = 100,
 		workers = Math.max(5, Math.min(100, visualViewport.width * visualViewport.height / 80000)),
 		timing = 1000 / 60, gate = ~~(timing), maxCorrection = Math.min(8, Math.max(2, gate / timing + 1)),
-		garden, beesknees, hive = [], touch = { x: Infinity, y: Infinity }, then, elapsed,
+		garden, beesknees = ["lapidarius", "magnus", "pascuorum", "pratorum"], hive = [], touch = { x: Infinity, y: Infinity }, then, elapsed,
 		request, reqFrame = window.requestAnimationFrame || ((cb) => { return window.setTimeout(cb, 1000 / 60) }), canFrame = window.cancelAnimationFrame || ((i) => { clearTimeout(i) });
 
 	class Bombus {
-		#el = document.createElementNS("http://www.w3.org/2000/svg", "use");
+		#el = document.createElement("img");
 		#buzzing = true;
 		#size = (Math.random() * 10) + 20;
 		#x = Math.floor(Math.random() * visualViewport.width);
@@ -26,7 +26,7 @@
 			delta: Math.random() / 40 + 0.1
 		};
 		constructor() {
-			this.#el.setAttribute("href", "#" + beesknees[Math.ceil((Math.random() * beesknees.length) - 1)].id);
+			this.#el.setAttribute("src", bombus.path + beesknees[Math.ceil((Math.random() * beesknees.length) - 1)] + "." + bombus.extension);
 			this.#el.setAttribute("width", ~~this.#size);
 			this.#el.setAttribute("height", ~~this.#size);
 			garden.appendChild(this.#el);
@@ -36,8 +36,10 @@
 			this.#direction.x = this.#velocity.x = speed;
 			this.#direction.y = this.#velocity.y = speed / 3 * (Math.random() > .5 ? 1 : -1);
 
-			if (this.#flipped)
+			if (this.#flipped) {
 				this.#el.classList.add("flip");
+				this.#direction.x = this.#velocity.x *= -1;
+			}
 
 			this.fly(1);
 		}
@@ -51,20 +53,11 @@
 
 		#accelerate(multiplier) {
 			if (petting) {
-				if (this.#flipped) {
-					this.#touchDistance = Math.sqrt(Math.pow(visualViewport.width - this.#center.x - touch.x, 2) + Math.pow(this.#center.y - touch.y, 2));
-					if (this.#touchDistance < minDist) {
-						this.#velocity.force = Math.min(.1, minDist / Math.pow(this.#touchDistance, 2) * 5);
-						this.#velocity.x += ((touch.x - (visualViewport.width - this.#center.x)) / this.#touchDistance) * this.#velocity.force * multiplier;
-						this.#velocity.y -= ((touch.y - this.#center.y) / this.#touchDistance) * this.#velocity.force * 2 * multiplier;
-					}
-				} else {
-					this.#touchDistance = Math.sqrt(Math.pow(this.#center.x - touch.x, 2) + Math.pow(this.#center.y - touch.y, 2));
-					if (this.#touchDistance < minDist) {
-						this.#velocity.force = Math.min(.1, minDist / Math.pow(this.#touchDistance, 2) * 5);
-						this.#velocity.x -= ((touch.x - this.#center.x) / this.#touchDistance) * this.#velocity.force / 2 * multiplier;
-						this.#velocity.y -= ((touch.y - this.#center.y) / this.#touchDistance) * this.#velocity.force * multiplier;
-					}
+				this.#touchDistance = Math.sqrt(Math.pow(this.#center.x - touch.x, 2) + Math.pow(this.#center.y - touch.y, 2));
+				if (this.#touchDistance < minDist) {
+					this.#velocity.force = Math.min(.1, minDist / Math.pow(this.#touchDistance, 2) * 5);
+					this.#velocity.x -= ((touch.x - this.#center.x) / this.#touchDistance) * this.#velocity.force / 2 * multiplier;
+					this.#velocity.y -= ((touch.y - this.#center.y) / this.#touchDistance) * this.#velocity.force * multiplier;
 				}
 			}
 
@@ -83,7 +76,7 @@
 				this.#velocity.x = this.#direction.x
 			}
 
-			if (this.#x + 50 < -this.size) {
+			if (this.#x + 50 < -this.#size) {
 				this.#x = visualViewport.width;
 				this.#velocity.x = this.#direction.x;
 			} else if (this.#x - 50 > visualViewport.width) {
@@ -101,8 +94,8 @@
 			this.#y += this.#velocity.y * multiplier;
 			this.#x += this.#velocity.x * multiplier;
 
-			this.#el.setAttribute("x", ~~this.#x);
-			this.#el.setAttribute("y", ~~this.#y);
+			this.#el.style.left = ~~this.#x + "px";
+			this.#el.style.top = ~~this.#y + "px";
 
 			this.#center.x = this.#x + this.#size / 2;
 			this.#center.y = this.#y + this.#size / 2;
@@ -139,8 +132,11 @@
 
 	function init() {
 		if (!garden) {
-			garden = document.querySelector("svg#bb-garden");
-			beesknees = garden.querySelectorAll("symbol");
+			garden = document.querySelector("#🐝-garden") || document.createElement("div");
+			if (!garden.parentElement) {
+				garden.id = "🐝-garden";
+				document.body.append(garden);
+			}
 			document.addEventListener("pointermove", (e) => {
 				petting = true;
 				touch.x = e.clientX;
@@ -157,20 +153,22 @@
 	}
 
 	window.bombus = {
-		summer: function (bees = workers) {
+		path: 'bombus/',
+		extension: 'png',
+		summer: (bees = workers) => {
 			init();
 			for (let i = 0; i < bees; i++) {
 				hive.push(new Bombus());
 			}
 		},
-		winter: function () {
+		winter: () => {
 			buzzing = false;
 			hive.forEach((worker) => {
 				worker.sleep();
 			});
 			hive = [];
 		},
-		bps: function (bps) {
+		bps: (bps) => {
 			gate = ~~(1000 / bps)
 			maxCorrection = Math.min(8, Math.max(2, gate / timing + 1));
 		}
