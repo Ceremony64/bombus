@@ -13,25 +13,10 @@ It is easy!
    ```html
     <link rel="stylesheet" href="🐝.css">
    ```
-
-3. Embed the `🐝.svg` directly into your document's body. Example:
-   ```html
-   <!DOCTYPE html>
-   <html>
-       <head>
-           <title>My website</title>
-           <script src="🐝.js"></script>
-           <link rel="stylesheet" href="🐝.css"/>
-           <!-- other header stuff -->
-       </head>
-       <body>
-           <!-- page content -->
-       </body>
-   </html>
-   ```
+3. Make sure to also upload the bombus folder with the images. Set a custom path to it with `bombus.path = 'folder/with/your/bombus/'`
 4. Call `bombus.summer()` to spawn all those lovely 🐝
 
-See `example.html` for a proper example.
+See `example.html` for a full example.
 
 ## Other stuff
 - Set `bombus.path = 'folder/with/your/bombus/` to set the path to the bombus folder. Don't forget the trailing slash! Default is `bombus/`
