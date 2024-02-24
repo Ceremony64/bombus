@@ -7,11 +7,12 @@
 	overflow: hidden;
 	pointer-events: none;
 	filter: drop-shadow(2px 2px 2px #0008);
+	z-index:999;
 }
 
 #🐝-garden img {
 	position: fixed;
-	z-index: 999;
+	transition: none;
 }
 
 #🐝-garden img.flip {
